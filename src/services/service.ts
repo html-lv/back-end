@@ -16,11 +16,27 @@ export async function getEmployeeById(id: number) {
     return await db.any(`Select * from employee where id = $1`, [id])
 }
 
-export const saveEmployee =async (employee: any) => {
-    return await db.one(`Insert into employee(id, first_name, last_name, office, birth_day, phone)` + 
-    'VALUES ($1, $2, $3, $4, $5, $6)', 
-    [employee.id, employee.first_name, employee.last_name, employee.office, employee.birth_day, employee.phone])
-}
+export const saveEmployee = async (employee: any) => {
+    try {
+      return await db.one(
+        `INSERT INTO employee (id, first_name, last_name, office, birth_day, phone) 
+        VALUES ($1, $2, $3, $4, $5, $6) 
+        RETURNING id`,
+        [
+          employee.id,
+          employee.first_name,
+          employee.last_name,
+          employee.office,
+          employee.birth_day,
+          employee.phone,
+        ]
+      );
+    } catch (error) {
+      console.error("Error inserting employee:", error);
+      throw new Error("Database error: Unable to save employee.");
+    }
+  };
+  
 
 export const updateEmployee = async (id: number, employee: any) => {
     const query = `
