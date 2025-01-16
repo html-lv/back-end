@@ -8,8 +8,6 @@ var cors = require("cors");
 router.use(bodyParser.json());
 router.use(cors())
 
-router.use(bodyParser.json());
-
 router.get('/employees', (req: Request, res: Response) => {
     employeeService.getEmployees().then(
         (employees) => {
