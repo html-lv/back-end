@@ -9,10 +9,16 @@ export async function getTagByUser(id: number) {
 }
 
 export const saveTag = async (tag: any) => {
-    return await db.one(`Insert into tags(id, user_id, slug)` + 
-    'VALUES ($1, $2, $3)', 
-    [tag.id, tag.user_id, tag.slug])
-}
+    try {
+      return await db.one(
+        `INSERT INTO tags (id, user_id, slug) VALUES ($1, $2, $3) RETURNING id`,
+        [tag.id, tag.user_id, tag.slug]
+      );
+    } catch (error) {
+      throw new Error("Database error: Unable to save tag.");
+    }
+  };
+  
 
 export const updateTag = async (id: number, tag: { user_id: number; slug: string }) => {
     const query = `
