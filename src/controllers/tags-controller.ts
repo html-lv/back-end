@@ -54,7 +54,7 @@ router.put('/tags/:id', (req: Request, res: Response) =>{
 })
 
 
-router.delete('/employees/:id', (req: Request, res: Response) => {
+router.delete('/tags/:id', (req: Request, res: Response) => {
     tagService.deleteTag(parseInt(req.params.id)).then(
         (tag) => {
             res.send(tag)
