@@ -42,20 +42,20 @@ router.post('/employees',(req: Request, res: Response) => {
     })
 })
 
-router.put('/employees/:id', (req: Request, res: Response) =>{
-    employeeService.updateEmployee(parseInt(req.params.id), req.body).then(
-        () => {
-            res.status(200).json( {
+router.put('/employees/:id', (req: Request, res: Response) => {
+    employeeService.updateEmployee(parseInt(req.params.id, 10), req.body)
+        .then(() => {
+            res.status(200).json({
                 message: "Employee was updated"
             });
-        }
-    ).catch((error) => {
-        res.status(303).json({
-            message: "Error :" + error.message
         })
-    })
-})
-
+        .catch((error) => {
+            console.error(error);
+            res.status(500).json({
+                message: "Error: " + error.message
+            });
+        });
+});
 
 router.delete('/employees/:id', (req: Request, res: Response) => {
     employeeService.deleteEmployee(parseInt(req.params.id)).then(

@@ -23,11 +23,15 @@ export const saveEmployee =async (employee: any) => {
 }
 
 export const updateEmployee = async (id: number, employee: any) => {
-    return await db.one(`Update employee SET id = $1, first_name = $2, last_name = $3, office = $4, birth_day = $5, phone = $6` + 
-    'WHERE id = $1',
-    [id, employee.first_name, employee.last_name, employee.office, employee.birth_day, employee.phone]
-    )
-}
+    const query = `
+        UPDATE employee
+        SET first_name = $2, last_name = $3, office = $4, phone = $5
+        WHERE id = $1
+        RETURNING *;
+    `;
+    return db.one(query, [id, employee.first_name, employee.last_name, employee.office, employee.phone]);
+};
+
 
 export const deleteEmployee =async (id: number) => {
     return await db.any(`Delete from employee WHERE id = $1`, [id])
