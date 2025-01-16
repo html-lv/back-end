@@ -47,7 +47,7 @@ router.put('/tags/:id', (req: Request, res: Response) =>{
             });
         }
     ).catch((error) => {
-        res.status(303).json({
+        res.status(500).json({
             message: "Error :" + error.message
         })
     })
