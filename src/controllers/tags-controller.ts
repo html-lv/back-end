@@ -4,6 +4,10 @@ import * as tagService from '../services/tags-service'
 const router = express.Router();
 const bodyParser = require("body-parser");
 
+var cors = require("cors");
+router.use(bodyParser.json());
+router.use(cors())
+
 router.use(bodyParser.json());
 
 router.get('/tags', (req: Request, res: Response) => {
