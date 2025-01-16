@@ -9,13 +9,16 @@ router.use(bodyParser.json());
 router.use(cors())
 
 router.get('/employees', (req: Request, res: Response) => {
-    employeeService.getEmployees().then(
+    const office = req.query.office as string | undefined;
+
+    employeeService.getEmployees(office).then(
         (employees) => {
-            res.send(employees)
+            res.send(employees);
         }).catch((error) => {
-            res.send(error.message)
-        })
-})
+            res.send(error.message);
+        });
+});
+
 
 router.get('/employees/:id', (req: Request, res: Response) => {
     employeeService.getEmployeeById(parseInt(req.params.id)).then(

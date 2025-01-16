@@ -1,8 +1,16 @@
 import { db } from '../connections';
 
-export const getEmployees = async () => {
-   return await db.query(`Select * from employee`)
+export const getEmployees = async (office?: string) => {
+    let query = `SELECT * FROM employee`;
+    
+    if (office) {
+        query += ` WHERE office = $1`;
+        return await db.query(query, [office]);
+    } else {
+        return await db.query(query);
+    }
 }
+
 
 export async function getEmployeeById(id: number) {
     return await db.any(`Select * from employee where id = $1`, [id])
