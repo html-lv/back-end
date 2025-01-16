@@ -2,12 +2,14 @@ import http from 'http'
 import express, { Express } from 'express'
 
 import * as employeeController from './controllers/controller'
+import * as tagController from './controllers/tags-controller'
 
 const router: Express = express();
 
 
 router.use('', 
-    employeeController.default
+    employeeController.default,
+    tagController.default,
 )
 
 const httpServer = http.createServer(router)
